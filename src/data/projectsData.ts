@@ -215,5 +215,49 @@ export const projectsData: Project[] = [
       company: 'Kroma Diagnostics'
     },
     liveUrl: 'https://kromabio.com'
+  },
+  {
+    id: 'aethelgard-horlogerie',
+    slug: 'aethelgard-horlogerie',
+    title: 'Aethelgard Haute Horlogerie',
+    subtitle: 'Immersive Digital Salon & Interactive Calibre Exhibition for Independent Artisanal Watchmaking',
+    client: 'Aethelgard Watchmakers Guild',
+    industry: 'Luxury & Craftsmanship',
+    category: 'Luxury & Lifestyle',
+    year: '2026',
+    location: 'Geneva · Mumbai · Tokyo',
+    deliverables: [
+      'Digital Exhibition Salon',
+      'Interactive Complication Explorer',
+      'Private Collector Concierge Portal',
+      'Bespoke Horological Typography',
+      'Escapement Audio-Visual Showcase',
+      'High-Resolution Heritage Archive'
+    ],
+    services: ['Web Design', 'UI/UX Design', 'Web Development', 'Brand Identity'],
+    thumbnail: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop',
+    heroImage: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1800&auto=format&fit=crop',
+    accentColor: '#B79B58',
+    overview: 'Aethelgard is an independent atelier producing numbered mechanical timepieces in strictly limited quantities of 24 pieces annually. MareclMarcio was commissioned to build a digital salon that mirrors the quiet majesty, hand-beveled anglage, and tactile reverence of Geneva master watchmaking.',
+    challenge: 'Luxury timepieces depend on micro-finishing, depth, and mechanical movement that static e-commerce templates flatten into ordinary product photos. The atelier needed an intimate, appointment-only digital salon that commanded prestige among high-net-worth collectors worldwide.',
+    solution: 'We constructed a deep obsidian and hand-brushed gold salon layout. High-resolution multi-angle macro zooms reveal hand-engraved balances, while an interactive escapement simulator lets collectors experience the acoustic rhythm and mechanical precision of each movement before booking a private consultation.',
+    impactMetrics: [
+      { label: 'Collector Inquiries', value: '+280%', description: 'Surge in verified private salon consultation bookings globally.' },
+      { label: 'Avg Viewing Time', value: '6m 45s', description: 'Exceptional collector engagement with horological calibre details.' },
+      { label: 'Allocation Sellout', value: '100%', description: 'Complete pre-order sellout of the 2026 Calibre VIII series.' }
+    ],
+    technologies: ['React', 'TypeScript', 'WebGL Canvas Zoom', 'Tailwind CSS', 'High-Res Asset Pipeline'],
+    galleryImages: [
+      'https://images.unsplash.com/photo-1547996160-71dfa63582b8?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1200&auto=format&fit=crop'
+    ],
+    testimonial: {
+      quote: 'MareclMarcio crafted our digital salon with the exact same obsessive precision we dedicate to our movements. Every proportion, transition, and shade of gold is utterly flawless.',
+      author: 'Jean-Marc Aethelgard',
+      role: 'Master Horologist & Guild Founder',
+      company: 'Aethelgard Horlogerie'
+    },
+    liveUrl: 'https://aethelgard.ch'
   }
 ];

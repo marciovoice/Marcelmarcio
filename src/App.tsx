@@ -18,7 +18,7 @@ import { soundFx } from './components/SoundEffects';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageId>('home');
-  const [currentSlug, setCurrentSlug] = useState<string | undefined>('cssas-sansthan');
+  const [currentSlug, setCurrentSlug] = useState<string | undefined>('cssas-ayurvedic-sansthan');
   const [selectedServiceForContact, setSelectedServiceForContact] = useState<string | undefined>();
   const [selectedPlanForContact, setSelectedPlanForContact] = useState<string | undefined>();
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
