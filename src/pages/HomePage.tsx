@@ -12,8 +12,9 @@ import { QualityMatrix } from '../components/QualityMatrix';
 import { ClientTypesGrid } from '../components/ClientTypesGrid';
 import { ProjectEstimator } from '../components/ProjectEstimator';
 import { HeroCanvas } from '../components/HeroCanvas';
-import { SignatureMoment } from '../components/SignatureMoment';
-import { LiveExperienceSandbox } from '../components/LiveExperienceSandbox';
+import { ExplosionSequence } from '../components/ExplosionSequence';
+import { PinnedCinematicAssembly } from '../components/PinnedCinematicAssembly';
+import { HorizontalShowcase } from '../components/HorizontalShowcase';
 import { CraftLabSection } from '../components/CraftLabSection';
 import { TransformationSlider } from '../components/TransformationSlider';
 import { soundFx } from '../components/SoundEffects';
@@ -31,7 +32,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const selectedProjects = projectsData.slice(0, 3);
   const currentService = servicesData.find((s) => s.id === activeTabService) || servicesData[0];
 
   const reasons = [
@@ -72,7 +72,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
         {/* Ambient Gold Radial Flare */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[700px] h-[350px] sm:h-[500px] bg-[#B79B58]/10 rounded-full blur-[120px] pointer-events-none z-0" />
-        
+
         {/* Top Floating Status Pill */}
         <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
           <motion.div
@@ -192,27 +192,35 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 2. SIGNATURE MOMENT — SPATIAL MONOGRAM ENGINE */}
+      {/* 2. SIGNATURE EXPLOSION & REASSEMBLY SCROLL-SCRUBBED SEQUENCE */}
       {/* ========================================================================= */}
-      <SignatureMoment />
+      <ExplosionSequence />
 
       {/* ========================================================================= */}
-      {/* 3. LIVE CAPABILITY DEMONSTRATION — "WE BUILD THIS" INTERFACE SANDBOX */}
+      {/* 3. PINNED CINEMATIC ASSEMBLY TIMELINE — "WE BUILD DIGITAL EXPERIENCES" */}
       {/* ========================================================================= */}
-      <LiveExperienceSandbox />
+      <PinnedCinematicAssembly />
 
       {/* ========================================================================= */}
-      {/* 4. THE CRAFT — DIGITAL SYSTEMS LABORATORY */}
+      {/* 4. PINNED HORIZONTAL CINEMATIC PORTFOLIO SHOWCASE */}
+      {/* ========================================================================= */}
+      <HorizontalShowcase
+        onSelectProject={(slug) => handleNav('case-study', slug)}
+        onExploreAll={() => handleNav('work')}
+      />
+
+      {/* ========================================================================= */}
+      {/* 5. THE CRAFT — DIGITAL SYSTEMS LABORATORY (INTERACTIVE SANDBOX) */}
       {/* ========================================================================= */}
       <CraftLabSection />
 
       {/* ========================================================================= */}
-      {/* 5. SCROLL-BASED TRANSFORMATION SLIDER (BEFORE VS AFTER) */}
+      {/* 6. SCROLL-BASED TRANSFORMATION SLIDER (BEFORE VS AFTER) */}
       {/* ========================================================================= */}
       <TransformationSlider />
 
       {/* ========================================================================= */}
-      {/* 6. PHILOSOPHY & MANIFESTO SECTION */}
+      {/* 7. PHILOSOPHY & MANIFESTO SECTION */}
       {/* ========================================================================= */}
       <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
         <div className="max-w-7xl mx-auto">
@@ -254,67 +262,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 7. SELECTED WORK / CASE STUDIES */}
-      {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
-        <div className="max-w-7xl mx-auto space-y-12">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-white/10">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-tech-mono text-[#B79B58] uppercase tracking-widest mb-2">
-                <Sparkles size={14} />
-                <span>SELECTED WORK</span>
-              </div>
-              <h2 className="text-3xl sm:text-5xl font-display font-medium text-[#F5F5F2]">
-                Crafted Case Studies
-              </h2>
-            </div>
-
-            <button
-              onClick={() => handleNav('work')}
-              className="group inline-flex items-center gap-2 text-xs font-tech-mono uppercase tracking-widest text-[#CDB373] hover:text-[#F5F5F2] transition-colors"
-            >
-              <span>View All {projectsData.length} Projects</span>
-              <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-
-          {/* Project Showcase Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {selectedProjects.map((project, idx) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                index={idx}
-                onSelect={(proj) => handleNav('case-study', proj.slug)}
-              />
-            ))}
-          </div>
-
-          {/* Work Bottom Banner */}
-          <div className="p-8 rounded-3xl bg-[#121212] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-            <div className="space-y-1">
-              <p className="text-sm font-display text-[#F5F5F2]">
-                Seeking a bespoke digital presence for your enterprise or institution?
-              </p>
-              <p className="text-xs text-[#8A8A8A] font-sans-refined font-light">
-                Explore how we formulate customized digital architectures tailored to your sector.
-              </p>
-            </div>
-            <button
-              onClick={() => handleNav('work')}
-              className="px-6 py-3.5 rounded-xl bg-[#1F1F1F] hover:bg-[#2A2A2A] border border-white/10 text-xs font-tech-mono text-[#CDB373] uppercase tracking-wider shrink-0 transition-colors"
-            >
-              Explore Full Archive →
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
       {/* 8. SERVICES DISCIPLINE EXPLORER */}
       {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
+      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-white/10">
             <div>
@@ -430,7 +380,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ========================================================================= */}
       {/* 9. 6-PHASE STUDIO PROCESS PREVIEW */}
       {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
+      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-white/10">
             <div>
@@ -488,7 +438,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ========================================================================= */}
       {/* 10. REASONS TO CHOOSE MARECLMARCIO */}
       {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
+      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="max-w-3xl space-y-3">
             <div className="inline-flex items-center gap-2 text-xs font-tech-mono text-[#B79B58] uppercase tracking-widest">
@@ -523,7 +473,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ========================================================================= */}
       {/* 11. CLIENT SECTORS / TYPES */}
       {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
+      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-white/10">
             <div>
@@ -547,7 +497,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ========================================================================= */}
       {/* 12. 11-POINT QUALITY PROMISE MATRIX */}
       {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
+      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
         <div className="max-w-7xl mx-auto">
           <QualityMatrix />
         </div>
@@ -556,7 +506,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* ========================================================================= */}
       {/* 13. INTERACTIVE ESTIMATOR & PRICING PREVIEW */}
       {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
+      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
         <div className="max-w-7xl mx-auto space-y-12">
           <ProjectEstimator
             onSelectScope={() => handleNav('contact')}

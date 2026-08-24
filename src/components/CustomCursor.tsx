@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion, useSpring } from 'motion/react';
 
 export const CustomCursor: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [cursorText, setCursorText] = useState<string | null>(null);
+  const [cursorVariant, setCursorVariant] = useState<'default' | 'view' | 'explore' | 'drag' | 'open' | 'play' | 'scroll'>('default');
   const [isVisible, setIsVisible] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
+  // Velocity tracking
+  const lastPos = useRef({ x: 0, y: 0, time: Date.now() });
+  const [velocity, setVelocity] = useState(0);
+
   useEffect(() => {
-    // Disable completely on touch devices or fine-pointer absence
+    // Disable completely on touch devices
     if (typeof window !== 'undefined') {
       const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
       if (isTouch) {
@@ -20,6 +25,14 @@ export const CustomCursor: React.FC = () => {
     }
 
     const handleMouseMove = (e: MouseEvent) => {
+      const now = Date.now();
+      const dt = Math.max(now - lastPos.current.time, 1);
+      const dx = e.clientX - lastPos.current.x;
+      const dy = e.clientY - lastPos.current.y;
+      const speed = Math.sqrt(dx * dx + dy * dy) / dt;
+      setVelocity(Math.min(speed * 15, 30));
+      lastPos.current = { x: e.clientX, y: e.clientY, time: now };
+
       setMousePosition({ x: e.clientX, y: e.clientY });
       if (!isVisible) setIsVisible(true);
 
@@ -30,8 +43,20 @@ export const CustomCursor: React.FC = () => {
       const customTextElement = target.closest('[data-cursor-text]');
       const customText = customTextElement?.getAttribute('data-cursor-text');
 
-      setIsHovered(!!interactive || !!customText);
-      setCursorText(customText || null);
+      if (customText) {
+        setCursorText(customText);
+        const lower = customText.toLowerCase();
+        if (['view', 'explore', 'drag', 'open', 'play', 'scroll'].includes(lower)) {
+          setCursorVariant(lower as any);
+        } else {
+          setCursorVariant('default');
+        }
+        setIsHovered(true);
+      } else {
+        setCursorText(null);
+        setCursorVariant('default');
+        setIsHovered(!!interactive);
+      }
     };
 
     const handleMouseDown = () => setIsClicking(true);
@@ -62,23 +87,23 @@ export const CustomCursor: React.FC = () => {
           x: mousePosition.x - 4,
           y: mousePosition.y - 4,
           opacity: cursorText ? 0 : 1,
-          scale: isClicking ? 0.6 : isHovered ? 1.5 : 1,
+          scale: isClicking ? 0.6 : isHovered ? 1.4 : 1,
         }}
-        transition={{ type: 'spring', damping: 35, stiffness: 600, mass: 0.15 }}
+        transition={{ type: 'spring', damping: 35, stiffness: 600, mass: 0.12 }}
       />
 
       {/* Floating Dynamic Outer Ring & Label Capsule */}
       <motion.div
         className={`fixed top-0 left-0 rounded-full flex items-center justify-center border transition-colors duration-200 ${
           cursorText
-            ? 'bg-[#B79B58] text-[#0B0B0B] border-[#B79B58] shadow-xl shadow-[#B79B58]/35 font-tech-mono font-bold uppercase text-[10px] tracking-widest px-3 py-1'
+            ? 'bg-[#B79B58] text-[#0B0B0B] border-[#B79B58] shadow-2xl shadow-[#B79B58]/40 font-tech-mono font-bold uppercase text-[10px] tracking-widest px-3.5 py-1'
             : isHovered
-            ? 'border-[#B79B58] bg-[#B79B58]/12 backdrop-blur-[2px]'
+            ? 'border-[#B79B58] bg-[#B79B58]/15 backdrop-blur-[2px]'
             : 'border-[#B79B58]/30 bg-transparent'
         }`}
         animate={{
           x: cursorText
-            ? mousePosition.x - 40
+            ? mousePosition.x - 42
             : isHovered
             ? mousePosition.x - 26
             : mousePosition.x - 16,
@@ -90,10 +115,11 @@ export const CustomCursor: React.FC = () => {
           width: cursorText ? 'auto' : isHovered ? 52 : 32,
           height: cursorText ? 'auto' : isHovered ? 52 : 32,
           scale: isClicking ? 0.85 : 1,
+          rotate: cursorVariant === 'drag' ? 45 : 0,
         }}
-        transition={{ type: 'spring', damping: 28, stiffness: 320, mass: 0.35 }}
+        transition={{ type: 'spring', damping: 28, stiffness: 340, mass: 0.28 }}
       >
-        {cursorText && <span>{cursorText}</span>}
+        {cursorText && <span className="whitespace-nowrap">{cursorText}</span>}
       </motion.div>
     </div>
   );
