@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowUpRight, ArrowRight, ShieldCheck, Sparkles, Code2, Layout, Compass, Flame, CheckCircle, ChevronRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, ShieldCheck, Sparkles, Code2, Layout, Compass, Flame, CheckCircle, ChevronRight, Sliders, Cpu } from 'lucide-react';
 import { PageId, Project } from '../types';
 import { projectsData } from '../data/projectsData';
 import { servicesData } from '../data/servicesData';
@@ -11,6 +11,11 @@ import { LiveClock } from '../components/LiveClock';
 import { QualityMatrix } from '../components/QualityMatrix';
 import { ClientTypesGrid } from '../components/ClientTypesGrid';
 import { ProjectEstimator } from '../components/ProjectEstimator';
+import { HeroCanvas } from '../components/HeroCanvas';
+import { SignatureMoment } from '../components/SignatureMoment';
+import { LiveExperienceSandbox } from '../components/LiveExperienceSandbox';
+import { CraftLabSection } from '../components/CraftLabSection';
+import { TransformationSlider } from '../components/TransformationSlider';
 import { soundFx } from '../components/SoundEffects';
 
 interface HomePageProps {
@@ -31,42 +36,45 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
   const reasons = [
     {
-      title: 'Built Around the Business',
-      desc: 'We do not believe every company needs the same cookie-cutter template. Every layout is sculpted around your specific commercial goals.',
+      title: 'Engineered For Prestige & Commercial Intent',
+      desc: 'We reject commoditized generic templates. Every viewport, interaction curve, and typographic hierarchy is sculpted around your distinct market authority.',
     },
     {
-      title: 'Design Meets Technology',
-      desc: 'Visual beauty is useful only when it performs. We pair haute typography with rock-solid full-stack code.',
+      title: 'Haute Design Meets Rock-Solid Engineering',
+      desc: 'Visual poetry is valuable only when backed by sub-second loading speed, zero layout shifts, and accessible, maintainable TypeScript code.',
     },
     {
-      title: 'Mobile by Default',
-      desc: 'Over 65% of audience traffic is mobile. We calibrate ergonomics, touch targets, and typography for small screens first.',
+      title: 'Mobile Ergonomics By Default',
+      desc: 'Over 65% of global high-value traffic is mobile. We calibrate tactile thumb zones, swipe gestures, and responsive typography for small screens first.',
     },
     {
-      title: 'Performance Matters',
-      desc: 'Sub-second load times, lightweight bundles, and 95+ Lighthouse scores to maximize conversion and Google search ranking.',
+      title: 'Sub-Second Performance & 99+ Lighthouse',
+      desc: 'Lightweight asset streaming and GPU-accelerated 60 FPS transitions that maximize customer retention, SEO ranking, and trust.',
     },
     {
-      title: 'Clear Communication',
-      desc: 'No mysterious buzzwords or artificial complexity designed to make simple things sound expensive. Honest timelines and scope.',
+      title: 'Radical Transparency & Honest Scope',
+      desc: 'No opaque agency markups or artificial jargon. You receive predictable milestones, direct technical dialogue, and complete IP ownership.',
     },
     {
-      title: 'Long-Term Thinking',
-      desc: 'We build modular systems with clean components and full IP ownership that adapt smoothly as your organization scales.',
+      title: 'Enduring Architecture',
+      desc: 'Modular design systems crafted with clean components that scale seamlessly as your enterprise or institution expands.',
     },
   ];
 
   return (
     <div className="relative min-h-screen bg-[#0B0B0B] text-[#F5F5F2] overflow-hidden selection:bg-[#B79B58] selection:text-[#0B0B0B]">
       {/* ========================================================================= */}
-      {/* 1. HERO SECTION — ARCHITECTURAL CRAFTSMANSHIP & SIGNATURE MONOGRAM */}
+      {/* 1. CINEMATIC HERO SECTION WITH INTERACTIVE GPU CANVAS */}
       {/* ========================================================================= */}
-      <section className="relative min-h-[92vh] sm:min-h-screen flex flex-col justify-between pt-32 sm:pt-36 pb-12 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-architect-grid">
+      <section className="relative min-h-[92vh] sm:min-h-screen flex flex-col justify-between pt-32 sm:pt-36 pb-12 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-architect-grid overflow-hidden">
+        {/* Interactive GPU Particle Canvas */}
+        <HeroCanvas interactive={true} />
+
         {/* Ambient Gold Radial Flare */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[700px] h-[350px] sm:h-[500px] bg-[#B79B58]/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[700px] h-[350px] sm:h-[500px] bg-[#B79B58]/10 rounded-full blur-[120px] pointer-events-none z-0" />
         
         {/* Top Floating Status Pill */}
-        <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -90,7 +98,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
 
         {/* Center Display Title & Monogram Interplay */}
-        <div className="max-w-7xl mx-auto w-full my-auto py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="max-w-7xl mx-auto w-full my-auto py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           <div className="lg:col-span-8 space-y-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -114,7 +122,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="text-sm sm:text-base text-[#8A8A8A] font-sans-refined font-light leading-relaxed max-w-2xl"
             >
-              We help ambitious businesses, educational institutions, healthcare leaders, and creators establish a commanding presence on the web. Combining thoughtful editorial design with rock-solid technology.
+              We help ambitious institutions, frontier AI ventures, luxury ateliers, and creative visionaries construct commanding digital ecosystems. Combining haute typographic poise with high-performance engineering.
             </motion.p>
 
             {/* Hero CTAs */}
@@ -140,7 +148,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 onMouseEnter={() => soundFx.playHover()}
                 className="px-7 py-4 rounded-full bg-[#141414] hover:bg-[#1A1A1A] border border-white/10 text-xs uppercase tracking-widest text-[#F5F5F2] flex items-center gap-2 transition-colors"
               >
-                <span>Explore Work (6)</span>
+                <span>Explore Work ({projectsData.length})</span>
                 <ChevronRight size={14} className="text-[#B79B58]" />
               </button>
 
@@ -163,18 +171,18 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
 
         {/* Bottom Ticker / Capabilities Ribbon */}
-        <div className="max-w-7xl mx-auto w-full pt-8 border-t border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs font-tech-mono text-[#8A8A8A]">
+        <div className="max-w-7xl mx-auto w-full pt-8 border-t border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs font-tech-mono text-[#8A8A8A] relative z-10">
           <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <span className="text-[#F5F5F2] flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#B79B58]" />
-              WEB DESIGN
+              BESPOKE WEB DESIGN
             </span>
             <span>·</span>
-            <span className="text-[#F5F5F2]">FULL-STACK DEVELOPMENT</span>
+            <span className="text-[#F5F5F2]">FULL-STACK ENGINEERING</span>
             <span>·</span>
             <span className="text-[#F5F5F2]">UI/UX SYSTEMS</span>
             <span>·</span>
-            <span className="text-[#F5F5F2]">BRAND IDENTITY</span>
+            <span className="text-[#F5F5F2]">INTERACTIVE MOTION</span>
           </div>
 
           <div className="text-[#8A8A8A]">
@@ -184,7 +192,27 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 2. PHILOSOPHY & MANIFESTO SECTION */}
+      {/* 2. SIGNATURE MOMENT — SPATIAL MONOGRAM ENGINE */}
+      {/* ========================================================================= */}
+      <SignatureMoment />
+
+      {/* ========================================================================= */}
+      {/* 3. LIVE CAPABILITY DEMONSTRATION — "WE BUILD THIS" INTERFACE SANDBOX */}
+      {/* ========================================================================= */}
+      <LiveExperienceSandbox />
+
+      {/* ========================================================================= */}
+      {/* 4. THE CRAFT — DIGITAL SYSTEMS LABORATORY */}
+      {/* ========================================================================= */}
+      <CraftLabSection />
+
+      {/* ========================================================================= */}
+      {/* 5. SCROLL-BASED TRANSFORMATION SLIDER (BEFORE VS AFTER) */}
+      {/* ========================================================================= */}
+      <TransformationSlider />
+
+      {/* ========================================================================= */}
+      {/* 6. PHILOSOPHY & MANIFESTO SECTION */}
       {/* ========================================================================= */}
       <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
         <div className="max-w-7xl mx-auto">
@@ -211,7 +239,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               ].map((item) => (
                 <div
                   key={item.num}
-                  className="p-6 rounded-xl bg-[#141414] border border-white/5 space-y-2 hover:border-[#B79B58]/30 transition-colors"
+                  className="p-6 rounded-2xl bg-[#141414] border border-white/5 space-y-2 hover:border-[#B79B58]/30 transition-colors"
                 >
                   <span className="text-xs font-tech-mono text-[#B79B58]">{item.num}</span>
                   <h3 className="text-lg font-display text-[#F5F5F2]">{item.q}</h3>
@@ -226,7 +254,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 3. SELECTED WORK / CASE STUDIES */}
+      {/* 7. SELECTED WORK / CASE STUDIES */}
       {/* ========================================================================= */}
       <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -246,7 +274,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               onClick={() => handleNav('work')}
               className="group inline-flex items-center gap-2 text-xs font-tech-mono uppercase tracking-widest text-[#CDB373] hover:text-[#F5F5F2] transition-colors"
             >
-              <span>View All 6 Projects</span>
+              <span>View All {projectsData.length} Projects</span>
               <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
@@ -264,7 +292,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
 
           {/* Work Bottom Banner */}
-          <div className="p-8 rounded-2xl bg-[#121212] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="p-8 rounded-3xl bg-[#121212] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div className="space-y-1">
               <p className="text-sm font-display text-[#F5F5F2]">
                 Seeking a bespoke digital presence for your enterprise or institution?
@@ -275,7 +303,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </div>
             <button
               onClick={() => handleNav('work')}
-              className="px-6 py-3 rounded-xl bg-[#1F1F1F] hover:bg-[#2A2A2A] border border-white/10 text-xs font-tech-mono text-[#CDB373] uppercase tracking-wider shrink-0 transition-colors"
+              className="px-6 py-3.5 rounded-xl bg-[#1F1F1F] hover:bg-[#2A2A2A] border border-white/10 text-xs font-tech-mono text-[#CDB373] uppercase tracking-wider shrink-0 transition-colors"
             >
               Explore Full Archive →
             </button>
@@ -284,7 +312,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 4. SERVICES DISCIPLINE EXPLORER */}
+      {/* 8. SERVICES DISCIPLINE EXPLORER */}
       {/* ========================================================================= */}
       <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -302,7 +330,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               onClick={() => handleNav('services')}
               className="inline-flex items-center gap-2 text-xs font-tech-mono uppercase tracking-widest text-[#CDB373] hover:text-[#F5F5F2] transition-colors"
             >
-              <span>Explore All 8 Services</span>
+              <span>Explore All {servicesData.length} Services</span>
               <ArrowRight size={14} />
             </button>
           </div>
@@ -320,7 +348,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       soundFx.playClick();
                       setActiveTabService(srv.id);
                     }}
-                    className={`w-full p-4 rounded-xl text-left border flex items-center justify-between transition-all ${
+                    className={`w-full p-4 rounded-2xl text-left border flex items-center justify-between transition-all ${
                       isSelected
                         ? 'bg-[#181818] border-[#B79B58] text-[#F5F5F2] shadow-lg shadow-[#B79B58]/5 pl-6'
                         : 'bg-[#121212] border-white/5 text-[#8A8A8A] hover:border-white/15'
@@ -341,7 +369,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </div>
 
             {/* Active Service Showcase Card */}
-            <div className="lg:col-span-7 p-8 rounded-2xl bg-[#141414] border border-[#B79B58]/30 flex flex-col justify-between space-y-8 shadow-2xl relative overflow-hidden">
+            <div className="lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-[#141414] border border-[#B79B58]/30 flex flex-col justify-between space-y-8 shadow-2xl relative overflow-hidden">
               <div className="space-y-6">
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
                   <span className="text-xs font-tech-mono uppercase tracking-widest text-[#B79B58]">
@@ -371,7 +399,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {currentService.deliverables.map((deliv, i) => (
-                      <div key={i} className="flex items-center gap-2 text-xs text-[#F5F5F2] bg-[#1A1A1A] p-2.5 rounded-lg border border-white/5">
+                      <div key={i} className="flex items-center gap-2 text-xs text-[#F5F5F2] bg-[#1A1A1A] p-2.5 rounded-xl border border-white/5">
                         <CheckCircle size={14} className="text-[#B79B58] shrink-0" />
                         <span className="truncate">{deliv}</span>
                       </div>
@@ -388,7 +416,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
                 <button
                   onClick={() => handleNav('contact')}
-                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#CDB373] to-[#B79B58] text-[#0B0B0B] font-medium text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg shadow-[#B79B58]/20"
+                  className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#CDB373] to-[#B79B58] text-[#0B0B0B] font-medium text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg shadow-[#B79B58]/20"
                 >
                   <span>Request {currentService.title}</span>
                   <ArrowUpRight size={15} />
@@ -400,7 +428,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 5. 6-PHASE STUDIO PROCESS PREVIEW */}
+      {/* 9. 6-PHASE STUDIO PROCESS PREVIEW */}
       {/* ========================================================================= */}
       <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -458,7 +486,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 6. REASONS TO CHOOSE MARECLMARCIO */}
+      {/* 10. REASONS TO CHOOSE MARECLMARCIO */}
       {/* ========================================================================= */}
       <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -493,7 +521,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 7. CLIENT SECTORS / TYPES */}
+      {/* 11. CLIENT SECTORS / TYPES */}
       {/* ========================================================================= */}
       <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -517,7 +545,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 8. 11-POINT QUALITY PROMISE MATRIX */}
+      {/* 12. 11-POINT QUALITY PROMISE MATRIX */}
       {/* ========================================================================= */}
       <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0E0E0E]">
         <div className="max-w-7xl mx-auto">
@@ -526,7 +554,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 9. INTERACTIVE ESTIMATOR & PRICING PREVIEW */}
+      {/* 13. INTERACTIVE ESTIMATOR & PRICING PREVIEW */}
       {/* ========================================================================= */}
       <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-b border-white/10 bg-[#0B0B0B]">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -537,17 +565,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* ========================================================================= */}
-      {/* 10. FINAL INVITATION / CTA BANNER */}
+      {/* 14. FINAL INVITATION / CTA BANNER */}
       {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#0B0B0B] to-[#141414] text-center relative overflow-hidden">
+      <section className="py-28 sm:py-36 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#0B0B0B] to-[#141414] text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-dots-pattern opacity-20 pointer-events-none" />
         <div className="relative max-w-4xl mx-auto space-y-6">
           <MonogramSymbol size={64} variant="gold" className="mx-auto" />
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-medium text-[#F5F5F2] leading-tight">
-            Ready to establish a more thoughtful digital presence?
+            Ready to build something worth remembering?
           </h2>
           <p className="text-base text-[#8A8A8A] font-sans-refined font-light max-w-xl mx-auto">
-            Tell us about what you are building. We will review your goals and provide an architectural proposal within 24 hours.
+            Tell us about your venture, product, or institution. We will architect a comprehensive digital proposal within 24 hours.
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">

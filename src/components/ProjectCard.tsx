@@ -1,11 +1,14 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Sparkles, Shield, Compass } from 'lucide-react';
 import { Project } from '../types';
 import { soundFx } from './SoundEffects';
 
 interface ProjectCardProps {
-  project: Project;
+  project: Project & {
+    projectType?: string;
+    clientHonestyNote?: string;
+  };
   onSelect: (project: Project) => void;
   index?: number;
   featured?: boolean;
@@ -22,6 +25,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     onSelect(project);
   };
 
+  const projectNumber = String(index + 1).padStart(2, '0');
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -30,7 +35,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
       onClick={handleClick}
       data-cursor-text="VIEW"
-      className={`group relative rounded-2xl overflow-hidden cursor-pointer bg-[#121212] border border-white/10 hover:border-[#B79B58]/40 transition-all duration-500 flex flex-col ${
+      className={`group relative rounded-3xl overflow-hidden cursor-pointer bg-[#121212] border border-white/10 hover:border-[#B79B58]/50 transition-all duration-500 flex flex-col shadow-xl hover:shadow-[#B79B58]/10 ${
         featured ? 'lg:col-span-2' : ''
       }`}
     >
@@ -43,23 +48,31 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
           loading="lazy"
         />
-        
-        {/* Soft Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-black/20 opacity-80 group-hover:opacity-60 transition-opacity duration-300" />
 
-        {/* Top Badges */}
+        {/* Soft Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-black/20 to-black/40 opacity-90 group-hover:opacity-70 transition-opacity duration-300" />
+
+        {/* Top Badges: Project Index & Category */}
         <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-          <span className="px-3 py-1 rounded-full text-[10px] font-tech-mono uppercase tracking-widest bg-[#0B0B0B]/80 backdrop-blur-md text-[#CDB373] border border-[#B79B58]/30">
-            {project.category}
-          </span>
-          <span className="px-2.5 py-1 rounded-full text-[10px] font-tech-mono bg-black/60 backdrop-blur-md text-[#8A8A8A] border border-white/10">
-            {project.year}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-1 rounded-md text-[10px] font-tech-mono font-bold bg-black/80 backdrop-blur-md text-[#F5F5F2] border border-white/10">
+              {projectNumber}
+            </span>
+            <span className="px-3 py-1 rounded-full text-[10px] font-tech-mono uppercase tracking-widest bg-[#0B0B0B]/80 backdrop-blur-md text-[#CDB373] border border-[#B79B58]/30">
+              {project.category}
+            </span>
+          </div>
+
+          {project.projectType && (
+            <span className="hidden sm:inline-block px-2.5 py-1 rounded-full text-[9px] font-tech-mono uppercase tracking-widest bg-black/70 backdrop-blur-md text-[#8A8A8A] border border-white/10">
+              {project.projectType}
+            </span>
+          )}
         </div>
 
-        {/* Metric Highlight (if available) */}
+        {/* Metric Highlight */}
         {project.impactMetrics?.[0] && (
-          <div className="absolute bottom-4 left-4 z-10 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0B0B0B]/90 backdrop-blur-md border border-white/10">
+          <div className="absolute bottom-4 left-4 z-10 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0B0B0B]/90 backdrop-blur-md border border-white/10">
             <span className="text-xs font-serif font-bold text-[#B79B58]">
               {project.impactMetrics[0].value}
             </span>
@@ -70,8 +83,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
 
         {/* Hover Arrow Icon */}
-        <div className="absolute bottom-4 right-4 z-10 w-10 h-10 rounded-full bg-[#B79B58] text-[#0B0B0B] flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-lg shadow-[#B79B58]/30">
-          <ArrowUpRight size={18} />
+        <div className="absolute bottom-4 right-4 z-10 w-11 h-11 rounded-full bg-gradient-to-r from-[#CDB373] to-[#B79B58] text-[#0B0B0B] flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-xl shadow-[#B79B58]/40">
+          <ArrowUpRight size={20} strokeWidth={2.5} />
         </div>
       </div>
 
@@ -94,17 +107,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
 
         {/* Service tags */}
-        <div className="pt-2 border-t border-white/5 flex flex-wrap gap-1.5">
+        <div className="pt-3 border-t border-white/5 flex flex-wrap gap-1.5">
           {project.services.slice(0, 3).map((srv, i) => (
             <span
               key={i}
-              className="text-[10px] font-tech-mono uppercase tracking-wider px-2 py-0.5 rounded bg-[#1A1A1A] text-[#8A8A8A]"
+              className="text-[10px] font-tech-mono uppercase tracking-wider px-2.5 py-1 rounded-md bg-[#1A1A1A] text-[#8A8A8A] border border-white/5"
             >
               {srv}
             </span>
           ))}
           {project.services.length > 3 && (
-            <span className="text-[10px] font-tech-mono text-[#8A8A8A] px-1 py-0.5">
+            <span className="text-[10px] font-tech-mono text-[#8A8A8A] px-1 py-1">
               +{project.services.length - 3}
             </span>
           )}

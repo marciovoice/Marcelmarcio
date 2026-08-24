@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, ArrowUpRight, CheckCircle2, Quote, ExternalLink, Sparkles, Cpu, Layers } from 'lucide-react';
-import { PageId, Project } from '../types';
-import { projectsData } from '../data/projectsData';
+import { ArrowLeft, ArrowUpRight, CheckCircle2, Quote, ExternalLink, Sparkles, Cpu, Layers, ShieldCheck, Palette, Grid, Move, Compass } from 'lucide-react';
+import { PageId } from '../types';
+import { projectsData, EnhancedProject } from '../data/projectsData';
 import { soundFx } from '../components/SoundEffects';
 
 interface CaseStudyPageProps {
@@ -11,7 +11,7 @@ interface CaseStudyPageProps {
 }
 
 export const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ slug, onNavigate }) => {
-  const project = projectsData.find((p) => p.slug === slug) || projectsData[0];
+  const project = (projectsData.find((p) => p.slug === slug) || projectsData[0]) as EnhancedProject;
   const currentIndex = projectsData.findIndex((p) => p.id === project.id);
   const nextProject = projectsData[(currentIndex + 1) % projectsData.length];
 
@@ -20,6 +20,9 @@ export const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ slug, onNavigate }
     onNavigate(page, targetSlug);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const projectIndexStr = String(currentIndex + 1).padStart(2, '0');
+  const totalProjectsStr = String(projectsData.length).padStart(2, '0');
 
   return (
     <div className="relative min-h-screen bg-[#0B0B0B] text-[#F5F5F2]">
@@ -34,9 +37,21 @@ export const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ slug, onNavigate }
         </button>
 
         <div className="flex items-center gap-2 text-xs font-tech-mono text-[#8A8A8A]">
-          <span>INDEX: 0{currentIndex + 1} / 0{projectsData.length}</span>
+          <span>INDEX: {projectIndexStr} / {totalProjectsStr}</span>
         </div>
       </div>
+
+      {/* Honest Studio Disclosure Banner */}
+      {project.clientHonestyNote && (
+        <div className="bg-[#121212] border-b border-white/5 px-4 sm:px-6 lg:px-8 py-3">
+          <div className="max-w-7xl mx-auto flex items-center gap-3 text-xs font-tech-mono text-[#8A8A8A]">
+            <ShieldCheck size={14} className="text-[#B79B58] shrink-0" />
+            <span>
+              <strong className="text-[#CDB373] uppercase">{project.projectType}</strong>: {project.clientHonestyNote}
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Hero Header */}
       <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -94,7 +109,31 @@ export const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ slug, onNavigate }
         </div>
       </section>
 
-      {/* Core Narrative: Overview, Challenge, Solution */}
+      {/* Architectural Phases (01 - 04) */}
+      {project.architecturalPhases && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-white/10">
+          <div className="space-y-6">
+            <span className="text-xs font-tech-mono text-[#B79B58] uppercase tracking-widest block">
+              ✦ ARCHITECTURAL PHASING &amp; EXECUTION
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {project.architecturalPhases.map((phase) => (
+                <div key={phase.phase} className="p-6 rounded-2xl bg-[#111111] border border-white/5 space-y-3">
+                  <span className="text-2xl font-serif font-bold text-[#B79B58]">
+                    {phase.phase}
+                  </span>
+                  <h4 className="text-sm font-sans-refined font-medium text-[#F5F5F2]">{phase.title}</h4>
+                  <p className="text-xs text-[#8A8A8A] font-light leading-relaxed">
+                    {phase.summary}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Core Narrative & Design System */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Narrative Content */}
@@ -161,6 +200,47 @@ export const CaseStudyPage: React.FC<CaseStudyPageProps> = ({ slug, onNavigate }
 
           {/* Sidebar Specifications */}
           <div className="lg:col-span-4 space-y-8">
+            {/* Design System Card */}
+            {project.designSystem && (
+              <div className="p-6 rounded-2xl bg-[#121212] border border-white/10 space-y-4">
+                <span className="text-xs font-tech-mono uppercase tracking-widest text-[#B79B58] flex items-center gap-2">
+                  <Palette size={13} />
+                  <span>DESIGN SYSTEM MATRIX</span>
+                </span>
+                
+                <div className="space-y-3 text-xs">
+                  <div>
+                    <span className="text-[10px] font-tech-mono uppercase text-[#8A8A8A] block">Typography System</span>
+                    <span className="text-[#F5F5F2] font-medium">{project.designSystem.typographyPairing}</span>
+                  </div>
+
+                  <div>
+                    <span className="text-[10px] font-tech-mono uppercase text-[#8A8A8A] block">Color Palette</span>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      {project.designSystem.colorPalette.map((col, idx) => (
+                        <div
+                          key={idx}
+                          className="w-5 h-5 rounded-full border border-white/20"
+                          style={{ backgroundColor: col }}
+                          title={col}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-[10px] font-tech-mono uppercase text-[#8A8A8A] block">Grid Geometry</span>
+                    <span className="text-[#F5F5F2]">{project.designSystem.gridGeometry}</span>
+                  </div>
+
+                  <div>
+                    <span className="text-[10px] font-tech-mono uppercase text-[#8A8A8A] block">Motion Curve</span>
+                    <span className="text-[#CDB373] font-tech-mono">{project.designSystem.motionArchetype}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Deliverables Card */}
             <div className="p-6 rounded-2xl bg-[#121212] border border-white/10 space-y-4">
               <span className="text-xs font-tech-mono uppercase tracking-widest text-[#B79B58]">

@@ -7,11 +7,17 @@ export const CustomCursor: React.FC = () => {
   const [isClicking, setIsClicking] = useState(false);
   const [cursorText, setCursorText] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
-    // Only activate on devices with fine pointer (mouse)
-    const mediaQuery = window.matchMedia('(pointer: fine)');
-    if (!mediaQuery.matches) return;
+    // Disable completely on touch devices or fine-pointer absence
+    if (typeof window !== 'undefined') {
+      const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+      if (isTouch) {
+        setIsTouchDevice(true);
+        return;
+      }
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -20,8 +26,9 @@ export const CustomCursor: React.FC = () => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
-      const interactive = target.closest('button, a, input, textarea, [data-interactive="true"]');
-      const customText = target.closest('[data-cursor-text]')?.getAttribute('data-cursor-text');
+      const interactive = target.closest('button, a, input, textarea, select, [data-interactive="true"]');
+      const customTextElement = target.closest('[data-cursor-text]');
+      const customText = customTextElement?.getAttribute('data-cursor-text');
 
       setIsHovered(!!interactive || !!customText);
       setCursorText(customText || null);
@@ -44,39 +51,47 @@ export const CustomCursor: React.FC = () => {
     };
   }, [isVisible]);
 
-  if (!isVisible) return null;
+  if (isTouchDevice || !isVisible) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden">
-      {/* Precision Center Dot */}
+    <div className="pointer-events-none fixed inset-0 z-[99999] overflow-hidden select-none">
+      {/* Precision Core Dot */}
       <motion.div
         className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B79B58]"
         animate={{
           x: mousePosition.x - 4,
           y: mousePosition.y - 4,
-          opacity: isHovered && cursorText ? 0 : 1,
-          scale: isClicking ? 0.6 : 1,
+          opacity: cursorText ? 0 : 1,
+          scale: isClicking ? 0.6 : isHovered ? 1.5 : 1,
         }}
-        transition={{ type: 'spring', damping: 30, stiffness: 450, mass: 0.2 }}
+        transition={{ type: 'spring', damping: 35, stiffness: 600, mass: 0.15 }}
       />
 
-      {/* Floating Aura Ring */}
+      {/* Floating Dynamic Outer Ring & Label Capsule */}
       <motion.div
-        className={`fixed top-0 left-0 rounded-full flex items-center justify-center border ${
+        className={`fixed top-0 left-0 rounded-full flex items-center justify-center border transition-colors duration-200 ${
           cursorText
-            ? 'bg-[#B79B58] text-[#0B0B0B] border-[#B79B58] shadow-lg shadow-[#B79B58]/30 font-sans-refined font-semibold uppercase text-[10px] tracking-widest px-3 py-1'
+            ? 'bg-[#B79B58] text-[#0B0B0B] border-[#B79B58] shadow-xl shadow-[#B79B58]/35 font-tech-mono font-bold uppercase text-[10px] tracking-widest px-3 py-1'
             : isHovered
-            ? 'border-[#B79B58] bg-[#B79B58]/10 backdrop-blur-[1px]'
+            ? 'border-[#B79B58] bg-[#B79B58]/12 backdrop-blur-[2px]'
             : 'border-[#B79B58]/30 bg-transparent'
         }`}
         animate={{
-          x: cursorText ? mousePosition.x - 42 : isHovered ? mousePosition.x - 24 : mousePosition.x - 16,
-          y: cursorText ? mousePosition.y - 18 : isHovered ? mousePosition.y - 24 : mousePosition.y - 16,
-          width: cursorText ? 'auto' : isHovered ? 48 : 32,
-          height: cursorText ? 'auto' : isHovered ? 48 : 32,
+          x: cursorText
+            ? mousePosition.x - 40
+            : isHovered
+            ? mousePosition.x - 26
+            : mousePosition.x - 16,
+          y: cursorText
+            ? mousePosition.y - 18
+            : isHovered
+            ? mousePosition.y - 26
+            : mousePosition.y - 16,
+          width: cursorText ? 'auto' : isHovered ? 52 : 32,
+          height: cursorText ? 'auto' : isHovered ? 52 : 32,
           scale: isClicking ? 0.85 : 1,
         }}
-        transition={{ type: 'spring', damping: 25, stiffness: 250, mass: 0.5 }}
+        transition={{ type: 'spring', damping: 28, stiffness: 320, mass: 0.35 }}
       >
         {cursorText && <span>{cursorText}</span>}
       </motion.div>
